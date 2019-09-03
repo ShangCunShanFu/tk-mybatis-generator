@@ -2,24 +2,26 @@ server:
   tomcat:
     max-threads: 10
     min-threads: 10
-  port: 7777
+  port: 4444
   
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-#    driverClassName: org.postgresql.Driver
 
+    # ############################数据库驱动#########################
+    # ############################数据库驱动#########################
+    # postgresql
+    driverClassName: org.postgresql.Driver
     # mysql5.8以下版本
-#    driverClassName: com.mysql.jdbc.Driver
-
+    # driverClassName: com.mysql.jdbc.Driver
     # mysql5.8以上版本或mariadb
-    driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:postgresql://10.61.1.92:5432/ai
-    url: jdbc:mysql://10.60.134.36:3306/zentao?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: 123456
-#    username: postgres
-#    password: postgres
+    # driverClassName: com.mysql.cj.jdbc.Driver
+    # ############################数据库驱动#########################
+    # ############################数据库驱动#########################
+
+    url: jdbc:postgresql://hgd11:5432/postgres
+    username: postgres
+    password: root
 
   fastjson:
     time-zone: GMT+8
@@ -40,10 +42,11 @@ logging:
 vm-template:
   ignore: index.js,index.vue
 
-# 公共属性
-#包名
+# #######################公共属性##############################
+# #######################公共属性##############################
+# 包名
 package:
-  basePackage: com.navinfo.rainbow.ai
+  basePackage: cn.hgd11.ai
   # biz层包名，如biz,service
   bizPackage: service
   # entity层包名，如entity,model
@@ -56,9 +59,8 @@ package:
   mapperXMLFolder: mapper
 
 #作者
-author:
-  尚村山夫
-email:
+author: 尚村山夫
+email: 13821211755@163.com
 
 #表前错误的Unicode字符串!
 tablePrefix:
@@ -66,8 +68,11 @@ tablePrefix:
 mainModule: auth
 
 # 公共Biz
-commonBusinessBiz: com.navinfo.rainbow.common.biz.BusinessBiz
+commonBusinessBiz: cn.hgd11.common.biz.BusinessBiz
 # 公共Controller
-commonController: com.navinfo.rainbow.common.controller.BaseController
+commonController: cn.hgd11.common.controller.BaseController
 # 公共Mapper
-commonMapper: com.navinfo.rainbow.common.mapper.CommonMapper
+commonMapper: cn.hgd11.common.mapper.CommonMapper
+
+# #######################公共属性##############################
+# #######################公共属性##############################
