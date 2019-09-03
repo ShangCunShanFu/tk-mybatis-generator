@@ -1,0 +1,19 @@
+package ${package}.${lowerBizPackage};
+
+import org.springframework.stereotype.Service;
+
+import ${package}.${lowerEntityPackage}.${className};
+import ${package}.${lowerMapperPackage}.${className}${upperMapperPackage};
+import ${commonBusinessBiz};
+
+/**
+ *
+ * ${tableComment}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @version ${datetime}
+ */
+@Service
+public class ${className}${upperBizPackage} extends BusinessBiz<${className}Mapper,${className}> {
+}

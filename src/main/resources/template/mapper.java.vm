@@ -1,0 +1,15 @@
+package ${package}.${lowerMapperPackage};
+
+import ${package}.${lowerEntityPackage}.${className};
+import ${commonMapper};
+
+/**
+ * ${tableComment}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @version ${datetime}
+ */
+public interface ${className}${upperMapperPackage} extends CommonMapper<${className}> {
+	
+}

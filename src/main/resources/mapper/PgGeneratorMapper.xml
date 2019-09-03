@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hgd.mapper.PgGeneratorMapper">
+	<resultMap id="tableEntityResultMap" type="com.hgd.entity.TableEntity">
+		<result column="table_name" property="tableName"/>
+		<result column="table_comment" property="tableComment"/>
+		<result column="engine" property="engine"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
+
+	<resultMap id="columnEntityResultMap" type="com.hgd.entity.ColumnEntity">
+		<result column="column_name" property="columnName"/>
+		<result column="data_type" property="dataType"/>
+		<result column="column_comment" property="columnComment"/>
+		<result column="column_key" property="columnKey"/>
+		<result column="extra" property="extra"/>
+	</resultMap>
+
+	<select id="queryList" resultMap="tableEntityResultMap">
+		select relname as table_name,
+		cast(obj_description(relfilenode,'pg_class') as varchar) as table_comment
+		from pg_class c
+		where relkind = 'r' and relname not like 'pg_%' and relname not like 'sql_%' order by relname
+		<if test="offset != null and limit != null">
+			limit #{limit} offset #{offset}
+		</if>
+	</select>
+
+	<select id="queryTotal" resultType="int">
+		select count(*) from (
+		select relname as table_name,
+		cast(obj_description(relfilenode,'pg_class') as varchar) as table_comment
+		from pg_class c
+		where relkind = 'r' and relname not like 'pg_%' and relname not like 'sql_%' order by relname
+		) tmp
+	</select>
+
+	<select id="queryTable" resultMap="tableEntityResultMap">
+		select relname as table_name,
+		cast(obj_description(relfilenode,'pg_class') as varchar) as table_comment
+		from pg_class c
+		where relkind = 'r' and relname not like 'pg_%' and relname not like 'sql_%' and relname = #{tableName} order by relname;
+	</select>
+
+	<select id="queryColumns" resultMap="columnEntityResultMap">
+		select
+		nomal.name as column_name,
+		nomal.COMMENT as column_comment,
+		nomal.type as data_type,
+		nomal.notnull as extra,
+		pk.pk_name as column_key
+		from
+		(
+		SELECT COL_DESCRIPTION(A.ATTRELID, A.ATTNUM) AS COMMENT,
+		FORMAT_TYPE(A.ATTTYPID, A.ATTTYPMOD) AS TYPE,
+		A.ATTNAME AS NAME,
+		A.ATTNOTNULL AS NOTNULL
+		FROM PG_CLASS AS C, PG_ATTRIBUTE AS A
+		WHERE C.RELNAME = #{tableName}
+		AND A.ATTRELID = C.OID
+		AND A.ATTNUM > 0
+		)nomal
+		left join
+		(
+		select
+		pg_constraint.conname as pk_name,
+		pg_attribute.attname as colname,
+		pg_type.typname as typename
+		from
+		pg_constraint
+		inner join pg_class on pg_constraint.conrelid = pg_class.oid
+		inner join pg_attribute on pg_attribute.attrelid = pg_class.oid  and  pg_attribute.attnum = pg_constraint.conkey[1]
+		inner join pg_type on pg_type.oid = pg_attribute.atttypid
+		where pg_class.relname = #{tableName}
+		and pg_constraint.contype='p'
+		and pg_table_is_visible(pg_class.oid)
+		)pk on nomal.name=pk.colname
+	</select>
+</mapper>

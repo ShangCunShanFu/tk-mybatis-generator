@@ -1,0 +1,14 @@
+package ${package}.${lowerControllerPackage};
+
+import ${commonController};
+import ${package}.${lowerBizPackage}.${className}${upperBizPackage};
+import ${package}.${lowerEntityPackage}.${className};
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RestController
+@RequestMapping("${secondModuleName}")
+public class ${className}${upperControllerPackage} extends
+    Base${upperControllerPackage}<${className}${upperBizPackage},${className},$pk.attrType> {
+
+}

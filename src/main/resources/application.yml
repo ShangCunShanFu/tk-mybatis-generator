@@ -1,0 +1,73 @@
+server:
+  tomcat:
+    max-threads: 10
+    min-threads: 10
+  port: 7777
+  
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+#    driverClassName: org.postgresql.Driver
+
+    # mysql5.8以下版本
+#    driverClassName: com.mysql.jdbc.Driver
+
+    # mysql5.8以上版本或mariadb
+    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:postgresql://10.61.1.92:5432/ai
+    url: jdbc:mysql://10.60.134.36:3306/zentao?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 123456
+#    username: postgres
+#    password: postgres
+
+  fastjson:
+    time-zone: GMT+8
+    data-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+    
+# Mybatis配置
+mybatis:
+    mapperLocations: classpath:mapper/**/*.xml
+
+logging:
+  level:
+    com.hgd: debug
+
+# 配置classpath下template目录内，哪个模板不参与代码生成，多个模板之间用逗号隔开，如biz.java,controller.java
+vm-template:
+  ignore: index.js,index.vue
+
+# 公共属性
+#包名
+package:
+  basePackage: com.navinfo.rainbow.ai
+  # biz层包名，如biz,service
+  bizPackage: service
+  # entity层包名，如entity,model
+  entityPackage: model
+  # controller层包名，如controller,rest
+  controllerPackage: controller
+  # mapper层包名，如mapper,dao
+  mapperPackage: mapper
+  # mapper映射文件夹名称，如mapper
+  mapperXMLFolder: mapper
+
+#作者
+author:
+  尚村山夫
+email:
+
+#表前错误的Unicode字符串!
+tablePrefix:
+#前端模块前缀
+mainModule: auth
+
+# 公共Biz
+commonBusinessBiz: com.navinfo.rainbow.common.biz.BusinessBiz
+# 公共Controller
+commonController: com.navinfo.rainbow.common.controller.BaseController
+# 公共Mapper
+commonMapper: com.navinfo.rainbow.common.mapper.CommonMapper
